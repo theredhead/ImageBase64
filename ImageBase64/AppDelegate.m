@@ -14,13 +14,40 @@
 	
 @property (weak) IBOutlet NSWindow *window;
 @property (weak) IBOutlet NSTextField *instructionsLabel;
-	
+@property (weak) IBOutlet NSImageView *imageView;
+
 @end
 
 @implementation AppDelegate
 
+
+#pragma mark Utility
+- (void)resetLabelText {
+    [_instructionsLabel setStringValue:@"Drop an image onto the well."];
+}
+
+- (NSString *)makeDataUrl {
+    NSBitmapImageRep* rep = [NSBitmapImageRep imageRepWithData:[[[self imageView] image] TIFFRepresentation]];
+    NSData* data = [rep representationUsingType:NSPNGFileType properties: [[NSDictionary alloc] init]];
+    
+    NSString* encoded = [data base64EncodedStringWithOptions:0];
+    NSString* dataUrl = [@"data:image/png;base64," stringByAppendingString:encoded];
+    return dataUrl;
+}
+
+- (void)copyToPasteBoard:(NSString *) dataUrl {
+    NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
+    [pasteboard clearContents];
+    [pasteboard writeObjects:@[dataUrl]];
+    
+    [_instructionsLabel setStringValue:@"data url copied."];
+    [NSTimer scheduledTimerWithTimeInterval:5.00f target:self selector:@selector(resetLabelText) userInfo:NULL repeats:NO];
+}
+
+#pragma mark event handling
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-	// Insert code here to initialize your application
+    [self resetLabelText];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
@@ -29,20 +56,8 @@
 
 - (IBAction)imageDropped:(NSImageView *)sender {
 	
-	NSBitmapImageRep* rep = 
-		[NSBitmapImageRep imageRepWithData:[[sender image] TIFFRepresentation]];
-	
-	NSData* data = [rep representationUsingType:NSPNGFileType properties: [[NSDictionary alloc] init]];
-	
-	NSString * encoded = [data base64EncodedStringWithOptions:0];
-
-	NSString * result = [@"data:image/png;base64," stringByAppendingString:encoded];
-	
-	NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
-	[pasteboard clearContents];
-	[pasteboard writeObjects:@[result]];
-	
-	[_instructionsLabel setStringValue:@"Base64 url copied."];
+	NSString * dataUrl = [self makeDataUrl];
+    [self copyToPasteBoard: dataUrl];
 }
-	
+
 @end
