@@ -428,7 +428,7 @@
 				DEVELOPMENT_TEAM = 5YC877BL4Z;
 				INFOPLIST_FILE = ImageBase64/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = nl.theredhead.ImageBase64;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -446,7 +446,7 @@
 				DEVELOPMENT_TEAM = 5YC877BL4Z;
 				INFOPLIST_FILE = ImageBase64/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = nl.theredhead.ImageBase64;
 				PRODUCT_NAME = "$(TARGET_NAME)";
